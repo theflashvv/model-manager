@@ -30,7 +30,7 @@
   body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
 
   /* NAV */
-  nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0; padding: 0 24px; position: sticky; top: 0; z-index: 100; }
+  nav { background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0; padding: env(safe-area-inset-top) 24px 0; position: sticky; top: 0; z-index: 100; }
   nav .logo { font-weight: 700; font-size: 18px; color: var(--accent); padding: 10px 20px 10px 0; border-right: 1px solid var(--border); margin-right: 16px; white-space: nowrap; display: flex; align-items: center; gap: 10px; }
   nav .logo img { width: 38px; height: 38px; object-fit: contain; border-radius: 8px; }
   nav .logo .logo-text { display: flex; flex-direction: column; line-height: 1.15; }
@@ -179,8 +179,8 @@
   #installBanner .install-actions { display:flex; gap:8px; flex-shrink:0; }
 
   /* SAFE AREA for iPhone notch / Dynamic Island */
-  body { padding-top: env(safe-area-inset-top); background-color: var(--surface); }
-  nav { padding-top: 0; }
+  body { padding-top: 0; background-color: var(--surface); }
+  nav { padding-top: env(safe-area-inset-top); }
   #installBanner { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
 
   /* SCROLLBAR */
