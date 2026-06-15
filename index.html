@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="模型管家">
 <meta name="theme-color" content="#e94560">
 <meta name="description" content="管理模型工具、配件与油漆库存">
@@ -178,8 +178,9 @@
   #installBanner .install-text small { font-size:12px; color:var(--text-dim); }
   #installBanner .install-actions { display:flex; gap:8px; flex-shrink:0; }
 
-  /* SAFE AREA for iPhone notch */
-  nav { padding-top: max(0px, env(safe-area-inset-top)); }
+  /* SAFE AREA for iPhone notch / Dynamic Island */
+  body { padding-top: env(safe-area-inset-top); background-color: var(--surface); }
+  nav { padding-top: 0; }
   #installBanner { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
 
   /* SCROLLBAR */
