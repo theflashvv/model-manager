@@ -258,6 +258,7 @@
     <div class="page-header">
       <h2><span class="sprite sprite-celes2" style="vertical-align:middle;margin-right:8px;width:28px;height:40px"></span>油漆库存</h2>
       <div class="spacer"></div>
+      <button class="btn btn-secondary" onclick="openParseModal()">🔍 智能解析</button>
       <button class="btn btn-primary" onclick="openPaintModal()">＋ 新增油漆</button>
     </div>
 
@@ -374,6 +375,32 @@
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('toolModal')">取消</button>
       <button class="btn btn-primary" onclick="saveTool()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- PARSE MODAL -->
+<div class="modal-overlay" id="parseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>🔍 智能解析商品标题</h3>
+      <button class="modal-close" onclick="closeModal('parseModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>粘贴淘宝 / 京东商品标题</label>
+        <textarea class="form-control" id="parseInput" rows="4"
+          placeholder="例：田宫模型漆 XF-1 哑光黑 水性漆 23ml&#10;或：GSI郡仕 Mr.Color C-1 白色 硝基漆"></textarea>
+      </div>
+      <div id="parsePreview" style="display:none">
+        <div style="font-size:12px;color:var(--text-dim);margin-bottom:8px">解析结果（可在下一步编辑）：</div>
+        <div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-wrap:wrap;gap:8px" id="parsePreviewContent"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('parseModal')">取消</button>
+      <button class="btn btn-secondary" onclick="doParse()">解析</button>
+      <button class="btn btn-primary" id="parseConfirmBtn" style="display:none" onclick="confirmParse()">确认并填入</button>
     </div>
   </div>
 </div>
@@ -927,6 +954,108 @@ function importData(e) {
   };
   reader.readAsText(file, 'utf-8');
   e.target.value = '';
+}
+
+// ─── SMART PARSE ─────────────────────────────────────────────────────────────
+const PARSE_RULES = {
+  brand: [
+    { pattern: /田宫|tamiya/i,           value: '田宫 Tamiya' },
+    { pattern: /mr\.?color|郡仕|gsi/i,   value: 'Mr.Color' },
+    { pattern: /盖亚|gaianotes|gaia/i,   value: '盖亚 Gaianotes' },
+    { pattern: /vallejo|凡尔哈/i,        value: '凡尔哈 Vallejo' },
+    { pattern: /ak\s*interactive|胡须/i, value: '胡须 AK Interactive' },
+    { pattern: /finisher'?s/i,           value: "Finisher's" },
+  ],
+  type: [
+    { pattern: /硝基|lacquer|拉卡/i,     value: '硝基漆' },
+    { pattern: /水性|acrylic|水溶/i,     value: '水性漆' },
+    { pattern: /珐琅|enamel/i,           value: '珐琅漆' },
+  ],
+  code: /\b([A-Z]{1,3}[-_]?\d{1,4}[A-Z]?)\b/i,
+  name: [
+    /哑光黑|flat\s*black|消光黑/i,
+    /哑光白|flat\s*white|消光白/i,
+    /纯白|pure\s*white/i,
+    /红色|red/i, /蓝色|blue/i, /绿色|green/i,
+    /黄色|yellow/i, /橙色|orange/i,
+    /灰色|灰|grey|gray/i,
+    /银色|silver/i, /金色|gold/i,
+    /棕色|brown/i, /紫色|purple/i,
+    /黑色|black/i, /白色|white/i,
+    /肤色|flesh/i, /土黄|tan/i,
+  ]
+};
+
+let parsedResult = {};
+
+function openParseModal() {
+  document.getElementById('parseInput').value = '';
+  document.getElementById('parsePreview').style.display = 'none';
+  document.getElementById('parseConfirmBtn').style.display = 'none';
+  parsedResult = {};
+  document.getElementById('parseModal').classList.add('open');
+  setTimeout(() => document.getElementById('parseInput').focus(), 100);
+}
+
+function doParse() {
+  const text = document.getElementById('parseInput').value.trim();
+  if (!text) { alert('请先粘贴商品标题'); return; }
+
+  parsedResult = { brand: '其他', type: '硝基漆', code: '', name: '' };
+
+  for (const r of PARSE_RULES.brand) {
+    if (r.pattern.test(text)) { parsedResult.brand = r.value; break; }
+  }
+  for (const r of PARSE_RULES.type) {
+    if (r.pattern.test(text)) { parsedResult.type = r.value; break; }
+  }
+
+  const codeMatch = text.match(PARSE_RULES.code);
+  if (codeMatch) parsedResult.code = codeMatch[1].toUpperCase();
+
+  // 尝试从常见颜色名提取
+  for (const pat of PARSE_RULES.name) {
+    const m = text.match(pat);
+    if (m) { parsedResult.name = m[0]; break; }
+  }
+  // 如果没匹配到颜色名，截取色号后面的中文词
+  if (!parsedResult.name && parsedResult.code) {
+    const afterCode = text.replace(parsedResult.code, '').replace(/[^一-龥a-zA-Z\s]/g, ' ').trim();
+    const words = afterCode.split(/\s+/).filter(w => w.length >= 2 && /[一-龥]/.test(w));
+    if (words.length) parsedResult.name = words[0];
+  }
+  if (!parsedResult.name) parsedResult.name = parsedResult.code || text.slice(0, 12);
+
+  // 渲染预览
+  const tag = (label, val, color) =>
+    `<span style="font-size:12px;padding:3px 10px;border-radius:12px;background:${color}22;color:${color};border:1px solid ${color}55">
+      <span style="opacity:.6">${label} </span><b>${val}</b>
+    </span>`;
+
+  document.getElementById('parsePreviewContent').innerHTML =
+    tag('品牌', parsedResult.brand, '#b39ddb') +
+    tag('类型', parsedResult.type, '#a5d6a7') +
+    (parsedResult.code ? tag('色号', parsedResult.code, '#81d4fa') : '') +
+    tag('颜色名', parsedResult.name, '#f48fb1');
+
+  document.getElementById('parsePreview').style.display = 'block';
+  document.getElementById('parseConfirmBtn').style.display = 'inline-flex';
+}
+
+function confirmParse() {
+  closeModal('parseModal');
+  openPaintModal();
+  // 填入解析结果
+  const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+  setTimeout(() => {
+    setVal('paintBrand', parsedResult.brand);
+    setVal('paintType',  parsedResult.type);
+    setVal('paintCode',  parsedResult.code);
+    setVal('paintName',  parsedResult.name);
+    // 品牌如果是自定义，select 可能没有该选项，回退到「其他」
+    const brandEl = document.getElementById('paintBrand');
+    if (brandEl.value !== parsedResult.brand) brandEl.value = '其他';
+  }, 50);
 }
 
 // ─── MODAL UTILS ─────────────────────────────────────────────────────────────
