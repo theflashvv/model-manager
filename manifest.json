@@ -2,7 +2,7 @@
   "name": "模型耗材管理",
   "short_name": "模型管家",
   "description": "管理模型工具、配件与油漆库存",
-  "start_url": "./模型耗材管理.html",
+  "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",

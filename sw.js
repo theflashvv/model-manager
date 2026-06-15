@@ -1,6 +1,6 @@
-const CACHE_NAME = 'model-manager-v1';
+const CACHE_NAME = 'model-manager-v2';
 const ASSETS = [
-  './模型耗材管理.html',
+  './index.html',
   './manifest.json',
   './icons-192.png',
   './icons-512.png'
@@ -34,7 +34,7 @@ self.addEventListener('fetch', e => {
         const clone = res.clone();
         caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
         return res;
-      }).catch(() => caches.match('./模型耗材管理.html'));
+      }).catch(() => caches.match('./index.html'));
     })
   );
 });
