@@ -191,7 +191,7 @@
   /* RESPONSIVE */
   @media (max-width: 600px) {
     /* NAV：logo 缩小，页面切换按钮文字隐藏只显示图标，导出导入缩成图标 */
-    nav { padding: 0 12px; }
+    nav { padding: env(safe-area-inset-top) 12px 0; }
     nav .logo { padding: 8px 12px 8px 0; margin-right: 8px; }
     nav .logo img { width: 28px; height: 28px; }
     nav .logo .logo-version { display: none; }
