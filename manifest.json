@@ -1,0 +1,27 @@
+{
+  "name": "模型耗材管理",
+  "short_name": "模型管家",
+  "description": "管理模型工具、配件与油漆库存",
+  "start_url": "./模型耗材管理.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e94560",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "icons-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["utilities", "lifestyle"]
+}
