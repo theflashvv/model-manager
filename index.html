@@ -11,6 +11,7 @@
 <meta name="description" content="管理模型工具、配件与油漆库存">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons-192.png">
+<script src="paintdb.js"></script>
 <title>模型耗材管理</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -183,6 +184,20 @@
   nav { padding-top: env(safe-area-inset-top); }
   #installBanner { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
 
+  /* PAINT DB */
+  .db-result-list { display: flex; flex-direction: column; gap: 8px; max-height: 55vh; overflow-y: auto; margin-top: 12px; }
+  .db-result-item { display: flex; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: border-color .15s; }
+  .db-result-item:hover { border-color: var(--accent); }
+  .db-swatch { width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0; border: 1px solid rgba(255,255,255,.1); }
+  .db-info { flex: 1; min-width: 0; }
+  .db-info .db-code { font-size: 13px; font-weight: 700; color: var(--text); }
+  .db-info .db-name { font-size: 12px; color: var(--text-dim); }
+  .db-info .db-brand { font-size: 10px; color: var(--accent2); margin-top: 2px; }
+  .db-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+  .db-type-tag { font-size: 10px; padding: 2px 7px; border-radius: 8px; }
+  .db-finish-tag { font-size: 10px; color: var(--text-dim); }
+  .db-empty { text-align: center; padding: 30px; color: var(--text-dim); font-size: 14px; }
+
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
@@ -301,8 +316,9 @@
     <div class="page-header">
       <h2><span class="sprite sprite-celes2" style="vertical-align:middle;margin-right:8px;width:28px;height:40px"></span>油漆库存</h2>
       <div class="spacer"></div>
-      <button class="btn btn-secondary" onclick="openParseModal()">🔍 智能解析</button>
-      <button class="btn btn-primary" onclick="openPaintModal()">＋ 新增油漆</button>
+      <button class="btn btn-secondary" onclick="openDbModal()">📚 色库</button>
+      <button class="btn btn-secondary" onclick="openParseModal()">🔍 解析</button>
+      <button class="btn btn-primary" onclick="openPaintModal()">＋ 新增</button>
     </div>
 
     <div class="filter-bar">
@@ -425,6 +441,32 @@
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('toolModal')">取消</button>
       <button class="btn btn-primary" onclick="saveTool()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- DB MODAL -->
+<div class="modal-overlay" id="dbModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📚 官方色库</h3>
+      <button class="modal-close" onclick="closeModal('dbModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding-bottom:8px">
+      <div style="display:flex;gap:8px;margin-bottom:4px">
+        <input class="form-control" id="dbSearch" placeholder="搜索色号、颜色名、品牌…" oninput="renderDbResults()" autocomplete="off" style="flex:1">
+        <select class="form-control" id="dbBrandFilter" onchange="renderDbResults()" style="width:auto;padding:10px 8px;font-size:13px">
+          <option value="">全部品牌</option>
+          <option>田宫 Tamiya</option>
+          <option>Mr.Color</option>
+          <option>盖亚 Gaianotes</option>
+          <option>Finisher's</option>
+        </select>
+      </div>
+      <div style="font-size:11px;color:var(--text-dim);margin-bottom:2px">点击颜色可直接加入库存</div>
+      <div class="db-result-list" id="dbResultList">
+        <div class="db-empty">输入关键词搜索，或直接浏览品牌色卡</div>
+      </div>
     </div>
   </div>
 </div>
@@ -1026,6 +1068,68 @@ function importData(e) {
   };
   reader.readAsText(file, 'utf-8');
   e.target.value = '';
+}
+
+// ─── PAINT DB ────────────────────────────────────────────────────────────────
+const finishLabel = { flat:'消光', semi:'半光', gloss:'光泽', none:'' };
+const finishColor = { flat:'#ef9a9a', semi:'#ffe082', gloss:'#80cbc4', none:'transparent' };
+
+function openDbModal() {
+  document.getElementById('dbSearch').value = '';
+  document.getElementById('dbBrandFilter').value = '';
+  renderDbResults();
+  document.getElementById('dbModal').classList.add('open');
+  setTimeout(() => document.getElementById('dbSearch').focus(), 100);
+}
+
+function renderDbResults() {
+  const q = document.getElementById('dbSearch').value.trim();
+  const brand = document.getElementById('dbBrandFilter').value;
+  const list = document.getElementById('dbResultList');
+
+  let results = typeof PAINT_DB !== 'undefined' ? PAINT_DB : [];
+  if (brand) results = results.filter(p => p.brand === brand);
+  if (q) results = results.filter(p =>
+    p.code.toLowerCase().includes(q.toLowerCase()) ||
+    p.name.includes(q) ||
+    p.nameEn.toLowerCase().includes(q.toLowerCase())
+  );
+  results = results.filter(p => p.type !== '工具').slice(0, 50);
+
+  if (!results.length) {
+    list.innerHTML = `<div class="db-empty">${q || brand ? '没有找到相关颜色' : '输入关键词或选择品牌开始浏览'}</div>`;
+    return;
+  }
+
+  list.innerHTML = results.map(p => `
+    <div class="db-result-item" onclick="addFromDb('${p.code}','${p.brand}')">
+      <div class="db-swatch" style="background:${p.hex}"></div>
+      <div class="db-info">
+        <div class="db-code">${p.code} <span style="font-weight:400;color:var(--text-dim)">· ${p.nameEn}</span></div>
+        <div class="db-name">${p.name}</div>
+        <div class="db-brand">${p.brand}</div>
+      </div>
+      <div class="db-meta">
+        <span class="db-type-tag ${p.type==='硝基漆'?'type-nitro':p.type==='水性漆'?'type-water':'type-enamel'}">${p.type}</span>
+        <span class="db-finish-tag" style="color:${finishColor[p.finish]}">${finishLabel[p.finish]}</span>
+      </div>
+    </div>`).join('');
+}
+
+function addFromDb(code, brand) {
+  const p = PAINT_DB.find(p => p.code === code && p.brand === brand);
+  if (!p) return;
+  closeModal('dbModal');
+  openPaintModal();
+  setTimeout(() => {
+    document.getElementById('paintBrand').value = p.brand;
+    document.getElementById('paintType').value = p.type;
+    document.getElementById('paintCode').value = p.code;
+    document.getElementById('paintName').value = p.name;
+    document.getElementById('paintColor').value = p.hex;
+    document.getElementById('paintColorHex').value = p.hex;
+    document.getElementById('colorPreviewBox').style.background = p.hex;
+  }, 50);
 }
 
 // ─── SMART PARSE ─────────────────────────────────────────────────────────────
