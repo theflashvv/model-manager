@@ -226,6 +226,43 @@ const PAINT_DB = [
   { brand:"Finisher's", code:'LF-10', name:'透明漆',   nameEn:'Pure Clear',     hex:'#f0f8ff', type:'硝基漆', finish:'gloss' },
   { brand:"Finisher's", code:'LF-11', name:'消光透明', nameEn:'Flat Clear',     hex:'#f0f8ff', type:'硝基漆', finish:'flat'  },
   { brand:"Finisher's", code:'LF-12', name:'半光透明', nameEn:'Semi-Gloss Clear', hex:'#f0f8ff', type:'硝基漆', finish:'semi' },
+
+  // ─── 盖亚 EVO 补土系列（Surfacer / Primer）──────────────────────────────────
+  { brand:'盖亚 Gaianotes', code:'EVO-01', name:'EVO白色补土',     nameEn:'EVO White Surfacer 1500', hex:'#f5f5f5', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-02', name:'EVO灰色补土',     nameEn:'EVO Grey Surfacer 1500',  hex:'#9e9e9e', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-03', name:'EVO黑色补土',     nameEn:'EVO Black Surfacer 1500', hex:'#212121', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-04', name:'EVO深灰补土',     nameEn:'EVO Dark Grey Surfacer',  hex:'#546e7a', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-05', name:'EVO浅灰补土',     nameEn:'EVO Light Grey Surfacer', hex:'#cfd8dc', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-06', name:'EVO粉红补土',     nameEn:'EVO Pink Surfacer',       hex:'#f8bbd0', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-07', name:'EVO橙色补土',     nameEn:'EVO Orange Surfacer',     hex:'#ffcc80', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-08', name:'EVO蓝色补土',     nameEn:'EVO Blue Surfacer',       hex:'#90caf9', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-09', name:'EVO黄色补土',     nameEn:'EVO Yellow Surfacer',     hex:'#fff176', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-10', name:'EVO红色补土',     nameEn:'EVO Red Surfacer',        hex:'#ef9a9a', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-11', name:'EVO绿色补土',     nameEn:'EVO Green Surfacer',      hex:'#a5d6a7', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-12', name:'EVO棕色补土',     nameEn:'EVO Brown Surfacer',      hex:'#bcaaa4', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-13', name:'EVO肤色补土',     nameEn:'EVO Flesh Surfacer',      hex:'#ffcc80', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-14', name:'EVO超白补土',     nameEn:'EVO Ultra White Surfacer',hex:'#ffffff', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-15', name:'EVO超黑补土',     nameEn:'EVO Ultra Black Surfacer',hex:'#0d0d0d', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-WH', name:'EVO多色白底补土', nameEn:'EVO Multi White',         hex:'#f5f5f5', type:'补土', finish:'flat' },
+  { brand:'盖亚 Gaianotes', code:'EVO-BK', name:'EVO多色黑底补土', nameEn:'EVO Multi Black',         hex:'#212121', type:'补土', finish:'flat' },
+
+  // ─── 盖亚 金属漆系列（Star Bright / Metal）────────────────────────────────
+  { brand:'盖亚 Gaianotes', code:'SB-01', name:'超级银',         nameEn:'Star Bright Silver',       hex:'#e8e8e8', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-02', name:'超级金',         nameEn:'Star Bright Gold',         hex:'#d4a017', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-03', name:'超级铜',         nameEn:'Star Bright Copper',       hex:'#b87333', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-04', name:'超级铁',         nameEn:'Star Bright Iron',         hex:'#90a4ae', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-05', name:'超级钛金',       nameEn:'Star Bright Titanium Gold',hex:'#c9a84c', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-06', name:'超级钛银',       nameEn:'Star Bright Titanium Silver',hex:'#cfd8dc',type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-07', name:'超级枪金属',     nameEn:'Star Bright Duralumin',    hex:'#607d8b', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-08', name:'超级钢铁',       nameEn:'Star Bright Stainless',    hex:'#eceff1', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-09', name:'超级黑钢',       nameEn:'Star Bright Black Iron',   hex:'#37474f', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-10', name:'超级蓝金属',     nameEn:'Star Bright Blue',         hex:'#1565c0', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-11', name:'超级红金属',     nameEn:'Star Bright Red',          hex:'#c62828', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-12', name:'超级绿金属',     nameEn:'Star Bright Green',        hex:'#2e7d32', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-13', name:'超级紫金属',     nameEn:'Star Bright Purple',       hex:'#6a1b9a', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-14', name:'超级珍珠白',     nameEn:'Star Bright Pearl White',  hex:'#f0f4f8', type:'硝基漆', finish:'gloss' },
+  { brand:'盖亚 Gaianotes', code:'SB-15', name:'超级极光金',     nameEn:'Star Bright Aurora Gold',  hex:'#ffe082', type:'硝基漆', finish:'gloss' },
+
 ];
 
 // 搜索函数：按品牌/色号/颜色名/类型搜索
