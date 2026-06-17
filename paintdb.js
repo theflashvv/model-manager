@@ -285,7 +285,7 @@ const PAINT_DB = [
   { brand:'Mr.Color', code:'CL-19', name:'透明棕',       nameEn:'Clear Brown',         hex:'#bcaaa4', type:'硝基漆', finish:'gloss' },
   { brand:'Mr.Color', code:'CL-20', name:'透明黑',       nameEn:'Clear Black',         hex:'#37474f', type:'硝基漆', finish:'gloss' },
 
-
+];
 
 // 搜索函数：按品牌/色号/颜色名/类型搜索
 function searchPaintDB(query) {
