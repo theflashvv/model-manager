@@ -1,5 +1,5 @@
-// ModelMaster 官方油漆数据库 v1.0
-// 收录：田宫 Tamiya / Mr.Color / 盖亚 Gaianotes / Finisher's
+// ModelMaster 官方油漆数据库 v1.2
+// 收录：田宫 Tamiya / Mr.Color（含CL透明系列）/ 盖亚 Gaianotes（含EVO补土/SB金属）/ Finisher's
 // 格式：{ brand, code, name, nameEn, hex, type, finish }
 // finish: 'flat'=消光 'semi'=半光 'gloss'=光泽
 
@@ -263,7 +263,29 @@ const PAINT_DB = [
   { brand:'盖亚 Gaianotes', code:'SB-14', name:'超级珍珠白',     nameEn:'Star Bright Pearl White',  hex:'#f0f4f8', type:'硝基漆', finish:'gloss' },
   { brand:'盖亚 Gaianotes', code:'SB-15', name:'超级极光金',     nameEn:'Star Bright Aurora Gold',  hex:'#ffe082', type:'硝基漆', finish:'gloss' },
 
-];
+  // ─── 郡士 Mr.Color CL 系列（透明色）────────────────────────────────────────
+  { brand:'Mr.Color', code:'CL-1',  name:'透明黄',       nameEn:'Clear Yellow',        hex:'#fff176', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-2',  name:'透明橙',       nameEn:'Clear Orange',        hex:'#ffb74d', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-3',  name:'透明红',       nameEn:'Clear Red',           hex:'#ef9a9a', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-4',  name:'透明紫',       nameEn:'Clear Violet',        hex:'#ce93d8', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-5',  name:'透明蓝',       nameEn:'Clear Blue',          hex:'#90caf9', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-6',  name:'透明绿',       nameEn:'Clear Green',         hex:'#a5d6a7', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-7',  name:'透明黑烟',     nameEn:'Clear Smoke',         hex:'#546e7a', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-8',  name:'荧光粉红',     nameEn:'Fluorescent Pink',    hex:'#f48fb1', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-9',  name:'荧光橙',       nameEn:'Fluorescent Orange',  hex:'#ffcc02', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-10', name:'荧光黄',       nameEn:'Fluorescent Yellow',  hex:'#ffff00', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-11', name:'荧光绿',       nameEn:'Fluorescent Green',   hex:'#b9f6ca', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-12', name:'荧光蓝',       nameEn:'Fluorescent Blue',    hex:'#82b1ff', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-13', name:'荧光红',       nameEn:'Fluorescent Red',     hex:'#ff8a80', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-14', name:'透明橙黄',     nameEn:'Clear Yellow Orange', hex:'#ffa726', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-15', name:'透明粉红',     nameEn:'Clear Pink',          hex:'#f8bbd0', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-16', name:'透明浅蓝',     nameEn:'Clear Sky Blue',      hex:'#b3e5fc', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-17', name:'透明浅绿',     nameEn:'Clear Light Green',   hex:'#dcedc8', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-18', name:'透明蓝紫',     nameEn:'Clear Blue Violet',   hex:'#b39ddb', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-19', name:'透明棕',       nameEn:'Clear Brown',         hex:'#bcaaa4', type:'硝基漆', finish:'gloss' },
+  { brand:'Mr.Color', code:'CL-20', name:'透明黑',       nameEn:'Clear Black',         hex:'#37474f', type:'硝基漆', finish:'gloss' },
+
+
 
 // 搜索函数：按品牌/色号/颜色名/类型搜索
 function searchPaintDB(query) {
