@@ -1094,7 +1094,9 @@ function renderDbResults() {
     p.name.includes(q) ||
     p.nameEn.toLowerCase().includes(q.toLowerCase())
   );
-  results = results.filter(p => p.type !== '工具').slice(0, 50);
+  results = results.filter(p => p.type !== '工具');
+  // 有搜索词时最多显示 80 条，只筛品牌不限制条数
+  if (q) results = results.slice(0, 80);
 
   if (!results.length) {
     list.innerHTML = `<div class="db-empty">${q || brand ? '没有找到相关颜色' : '输入关键词或选择品牌开始浏览'}</div>`;
