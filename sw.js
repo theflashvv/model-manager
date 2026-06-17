@@ -1,10 +1,10 @@
-const CACHE_NAME = 'model-manager-v7';
+const CACHE_NAME = 'model-manager-v8';
 const ASSETS = [
   './index.html',
   './paintdb.js',
   './manifest.json',
-  './icons-192.png',
-  './icons-512.png'
+  './kefka-icon-192.png',
+  './kefka-icon-512.png'
 ];
 
 // 安装：预缓存所有静态资源
