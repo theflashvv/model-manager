@@ -1,4 +1,4 @@
-const CACHE_NAME = 'model-manager-v8';
+const CACHE_NAME = 'model-manager-v9';
 const ASSETS = [
   './index.html',
   './paintdb.js',
