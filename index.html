@@ -703,7 +703,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('paintModal')">取消</button>
-      <button class="btn btn-primary" onclick="savePaint()">保存</button>
+      <button class="btn btn-primary" id="paintSaveBtn" onclick="savePaint()">保存</button>
     </div>
   </div>
 </div>
@@ -1551,7 +1551,13 @@ function copyShopList() {
 }
 
 // ─── MODAL UTILS ─────────────────────────────────────────────────────────────
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+  if (id === 'paintModal') {
+    const saveBtn = document.getElementById('paintSaveBtn');
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = ''; saveBtn.style.cursor = ''; }
+  }
+}
 document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); }));
 
 // ─── THEME ───────────────────────────────────────────────────────────────────
@@ -1585,6 +1591,7 @@ function checkDuplicate() {
   const name = document.getElementById('paintName').value.trim();
   const id   = document.getElementById('paintId').value;
   const warn = document.getElementById('dupWarning');
+  const saveBtn = document.getElementById('paintSaveBtn');
 
   const dup = paints.find(p =>
     p.id !== id && (
@@ -1594,10 +1601,16 @@ function checkDuplicate() {
   );
 
   if (dup) {
-    warn.innerHTML = `⚠ 库存中已有「${dup.code ? dup.code + ' ' : ''}${dup.name}」（${dup.brand}） · 库存状态：${stockLabel[dup.stock]}`;
+    warn.innerHTML = `⚠ 库存中已有「${dup.code ? dup.code + ' ' : ''}${dup.name}」（${dup.brand}） · 库存状态：${stockLabel[dup.stock]}<br>
+      <span style="font-size:11px;margin-top:4px;display:block">如需调整数量，请
+        <b style="cursor:pointer;text-decoration:underline;color:var(--accent)"
+           onclick="closeModal('paintModal'); openPaintModal('${dup.id}')">点此编辑已有条目</b>
+      </span>`;
     warn.style.display = 'block';
+    if (saveBtn) { saveBtn.disabled = true; saveBtn.style.opacity = '0.4'; saveBtn.style.cursor = 'not-allowed'; }
   } else {
     warn.style.display = 'none';
+    if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = ''; saveBtn.style.cursor = ''; }
   }
 }
 
@@ -1605,11 +1618,11 @@ function checkDuplicate() {
 initTheme();
 renderTools(); renderTip(); updateStats(); updateShopBadge();
 
-// 自动读取 sw.js 版本号并显示
+// 自动读取 sw.js 应用版本号并显示
 fetch('./sw.js').then(r => r.text()).then(text => {
-  const m = text.match(/CACHE_NAME\s*=\s*['"]model-manager-(v\d+)['"]/);
+  const m = text.match(/APP_VERSION\s*=\s*['"]([^'"]+)['"]/);
   if (m) {
-    const ver = m[1];
+    const ver = 'v' + m[1];
     const el1 = document.getElementById('logoVersion');
     const el2 = document.getElementById('footerVersion');
     if (el1) el1.textContent = ver + ' · 模型管家';
@@ -1617,7 +1630,7 @@ fetch('./sw.js').then(r => r.text()).then(text => {
   }
 }).catch(() => {
   const el = document.getElementById('footerVersion');
-  if (el) el.textContent = 'v8';
+  if (el) el.textContent = 'v1.0';
 });
 
 // ─── PWA ──────────────────────────────────────────────────────────────────────
