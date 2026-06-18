@@ -509,6 +509,7 @@
           <option>Mr.Color</option>
           <option>盖亚 Gaianotes</option>
           <option>Finisher's</option>
+          <option>Ray</option>
         </select>
       </div>
       <div style="font-size:11px;color:var(--text-dim);margin-bottom:2px">点击颜色可直接加入库存</div>
@@ -559,7 +560,7 @@
           <label>品牌 *</label>
           <select class="form-control" id="paintBrand">
             <option>田宫 Tamiya</option><option>Mr.Color</option><option>盖亚 Gaianotes</option>
-            <option>凡尔哈 Vallejo</option><option>胡须 AK Interactive</option><option>Finisher's</option><option>其他</option>
+            <option>凡尔哈 Vallejo</option><option>胡须 AK Interactive</option><option>Finisher's</option><option>Ray</option><option>其他</option>
           </select>
         </div>
         <div class="form-group">
@@ -720,7 +721,15 @@ function getForgottenTools() {
 
 function markUsedToday(id) {
   const t = tools.find(t => t.id === id);
-  if (t) { t.lastUsed = new Date().toISOString().slice(0,10); saveTools(); renderTools(); renderTip(); }
+  if (t) {
+    const today = new Date().toISOString().slice(0, 10);
+    // 同一天多次点击不重复计数
+    if (t.lastUsed !== today) {
+      t.useCount = (t.useCount || 0) + 1;
+    }
+    t.lastUsed = today;
+    saveTools(); renderTools(); renderTip();
+  }
 }
 
 function pickForgottenTool() {
@@ -795,6 +804,7 @@ function renderTools() {
     grid.innerHTML = list.map(t => {
       const stale = !t.lastUsed || new Date(t.lastUsed).getTime() < cutoff14;
       const lastUsedText = t.lastUsed ? `上次使用：${t.lastUsed}` : '从未记录';
+      const useCountText = t.useCount ? `用了 <b style="color:var(--text)">${t.useCount}</b> 次` : '';
       const stageTags = (t.stages||[]).map(s => `<span class="stage-tag">${s}</span>`).join('');
       const modelTags = (t.models||[]).map(m =>
         `<span class="model-tag" onclick="quickSearchModel('${m}')" title="点击搜索该模型所有物料">${m}</span>`
@@ -815,6 +825,7 @@ function renderTools() {
           ${modelTags ? `<div class="tag-row">${modelTags}</div>` : ''}
           <div class="meta">
             <span class="last-used ${stale?'stale':''}">${lastUsedText}</span>
+            ${useCountText ? `<span style="font-size:11px;color:var(--text-dim)">${useCountText}</span>` : ''}
             ${t.qty != null && t.qty !== '' ? `<span style="font-size:12px;color:var(--text-dim)">×<b style="color:var(--text)">${t.qty}</b></span>` : ''}
             <div class="card-actions">
               <button class="btn btn-sm btn-secondary" onclick="markUsedToday('${t.id}')">✓ 用了</button>
@@ -1056,21 +1067,43 @@ function savePaint() {
   const name = document.getElementById('paintName').value.trim();
   if (!name) { alert('请输入颜色名称'); return; }
   const id = document.getElementById('paintId').value;
+  const newStock = document.getElementById('paintStock').value;
   const data = {
     brand: document.getElementById('paintBrand').value,
     type: document.getElementById('paintType').value,
     code: document.getElementById('paintCode').value.trim(),
     name,
     color: document.getElementById('paintColor').value,
-    stock: document.getElementById('paintStock').value,
+    stock: newStock,
     qty: document.getElementById('paintQty').value !== '' ? Number(document.getElementById('paintQty').value) : null,
     usage: document.getElementById('paintUsage').value.trim(),
     notes: document.getElementById('paintNotes').value.trim(),
     models: getTagsFromWrap('paintModelsWrap')
   };
+  const today = new Date().toISOString().slice(0, 10);
   if (id) {
-    Object.assign(paints.find(p => p.id === id), data);
+    const existing = paints.find(p => p.id === id);
+    const oldStock = existing.stock;
+    // 从有货变成空瓶/快用完 → 记录变空日期
+    if ((newStock === 'empty' || newStock === 'low') &&
+        (oldStock === 'full' || oldStock === 'half')) {
+      data.emptyDate = today;
+      data.restockLog = existing.restockLog || [];
+    }
+    // 从空瓶/快用完变成有货 → 记录补货日期
+    if ((newStock === 'full' || newStock === 'half') &&
+        (oldStock === 'empty' || oldStock === 'low')) {
+      data.restockLog = [...(existing.restockLog || []), today];
+      data.emptyDate = existing.emptyDate || null;
+    }
+    // 保留已有追踪数据（没发生状态变化时）
+    if (!data.restockLog) data.restockLog = existing.restockLog || [];
+    if (!data.emptyDate && data.emptyDate !== null) data.emptyDate = existing.emptyDate || null;
+    Object.assign(existing, data);
   } else {
+    // 新增时如果直接就是空瓶，记录初始日期
+    if (newStock === 'empty' || newStock === 'low') data.emptyDate = today;
+    data.restockLog = [];
     paints.push({ id: genId(), ...data });
   }
   savePaints(); closeModal('paintModal'); renderPaints(); renderLowStockAlert(); updateStats();

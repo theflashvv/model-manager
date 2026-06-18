@@ -1,5 +1,5 @@
-// ModelMaster 官方油漆数据库 v1.2
-// 收录：田宫 Tamiya / Mr.Color（含CL透明系列）/ 盖亚 Gaianotes（含EVO补土/SB金属）/ Finisher's
+// ModelMaster 官方油漆数据库 v1.3
+// 收录：田宫 Tamiya / Mr.Color（含CL透明系列）/ 盖亚 Gaianotes（含EVO补土/SB金属）/ Finisher's / Ray（国产水性漆）
 // 格式：{ brand, code, name, nameEn, hex, type, finish }
 // finish: 'flat'=消光 'semi'=半光 'gloss'=光泽
 
@@ -284,6 +284,68 @@ const PAINT_DB = [
   { brand:'Mr.Color', code:'CL-18', name:'透明蓝紫',     nameEn:'Clear Blue Violet',   hex:'#b39ddb', type:'硝基漆', finish:'gloss' },
   { brand:'Mr.Color', code:'CL-19', name:'透明棕',       nameEn:'Clear Brown',         hex:'#bcaaa4', type:'硝基漆', finish:'gloss' },
   { brand:'Mr.Color', code:'CL-20', name:'透明黑',       nameEn:'Clear Black',         hex:'#37474f', type:'硝基漆', finish:'gloss' },
+
+  // ─── Ray 水性漆（国产）──────────────────────────────────────────────────────
+  // 基础色系
+  { brand:'Ray', code:'RAY-001', name:'纯白',       nameEn:'Pure White',        hex:'#f5f5f5', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-002', name:'骨白',       nameEn:'Bone White',        hex:'#ede8d5', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-003', name:'纯黑',       nameEn:'Pure Black',        hex:'#1a1a1a', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-004', name:'中性灰',     nameEn:'Neutral Grey',      hex:'#9e9e9e', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-005', name:'浅灰',       nameEn:'Light Grey',        hex:'#cfd8dc', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-006', name:'深灰',       nameEn:'Dark Grey',         hex:'#546e7a', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-007', name:'机甲灰',     nameEn:'Mech Grey',         hex:'#78909c', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-008', name:'暖灰',       nameEn:'Warm Grey',         hex:'#a1887f', type:'水性漆', finish:'flat'  },
+
+  // 红色系
+  { brand:'Ray', code:'RAY-011', name:'正红',       nameEn:'Red',               hex:'#e53935', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-012', name:'暗红',       nameEn:'Dark Red',          hex:'#b71c1c', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-013', name:'血红',       nameEn:'Blood Red',         hex:'#c62828', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-014', name:'朱红',       nameEn:'Vermilion',         hex:'#e64a19', type:'水性漆', finish:'flat'  },
+
+  // 蓝色系
+  { brand:'Ray', code:'RAY-021', name:'正蓝',       nameEn:'Blue',              hex:'#1e88e5', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-022', name:'深蓝',       nameEn:'Dark Blue',         hex:'#0d47a1', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-023', name:'天蓝',       nameEn:'Sky Blue',          hex:'#81d4fa', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-024', name:'海军蓝',     nameEn:'Navy Blue',         hex:'#1a237e', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-025', name:'钴蓝',       nameEn:'Cobalt Blue',       hex:'#1565c0', type:'水性漆', finish:'flat'  },
+
+  // 绿色系
+  { brand:'Ray', code:'RAY-031', name:'正绿',       nameEn:'Green',             hex:'#43a047', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-032', name:'暗绿',       nameEn:'Dark Green',        hex:'#1b5e20', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-033', name:'橄榄绿',     nameEn:'Olive Green',       hex:'#689f38', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-034', name:'薄荷绿',     nameEn:'Mint Green',        hex:'#a5d6a7', type:'水性漆', finish:'flat'  },
+
+  // 黄色系
+  { brand:'Ray', code:'RAY-041', name:'正黄',       nameEn:'Yellow',            hex:'#fdd835', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-042', name:'暗黄',       nameEn:'Dark Yellow',       hex:'#f9a825', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-043', name:'沙黄',       nameEn:'Sand Yellow',       hex:'#c8a84b', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-044', name:'米黄',       nameEn:'Cream',             hex:'#fff9c4', type:'水性漆', finish:'flat'  },
+
+  // 棕色系
+  { brand:'Ray', code:'RAY-051', name:'棕色',       nameEn:'Brown',             hex:'#6d4c41', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-052', name:'深棕',       nameEn:'Dark Brown',        hex:'#3e2723', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-053', name:'皮革棕',     nameEn:'Leather Brown',     hex:'#8d6e63', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-054', name:'沙棕',       nameEn:'Sand Brown',        hex:'#bcaaa4', type:'水性漆', finish:'flat'  },
+
+  // 金属色
+  { brand:'Ray', code:'RAY-061', name:'银色',       nameEn:'Silver',            hex:'#bdbdbd', type:'水性漆', finish:'gloss' },
+  { brand:'Ray', code:'RAY-062', name:'金色',       nameEn:'Gold',              hex:'#d4a017', type:'水性漆', finish:'gloss' },
+  { brand:'Ray', code:'RAY-063', name:'铜色',       nameEn:'Copper',            hex:'#b87333', type:'水性漆', finish:'gloss' },
+  { brand:'Ray', code:'RAY-064', name:'枪金属',     nameEn:'Gun Metal',         hex:'#607d8b', type:'水性漆', finish:'semi'  },
+  { brand:'Ray', code:'RAY-065', name:'钢铁',       nameEn:'Steel',             hex:'#90a4ae', type:'水性漆', finish:'semi'  },
+
+  // 特殊色
+  { brand:'Ray', code:'RAY-071', name:'肤色',       nameEn:'Flesh',             hex:'#ffcc80', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-072', name:'橙色',       nameEn:'Orange',            hex:'#ef6c00', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-073', name:'紫色',       nameEn:'Purple',            hex:'#6a1b9a', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-074', name:'粉色',       nameEn:'Pink',              hex:'#f48fb1', type:'水性漆', finish:'flat'  },
+
+  // 功能漆
+  { brand:'Ray', code:'RAY-081', name:'消光透明',   nameEn:'Flat Clear',        hex:'#f0f8ff', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-082', name:'半光透明',   nameEn:'Semi-Gloss Clear',  hex:'#f0f8ff', type:'水性漆', finish:'semi'  },
+  { brand:'Ray', code:'RAY-083', name:'光泽透明',   nameEn:'Gloss Clear',       hex:'#f0f8ff', type:'水性漆', finish:'gloss' },
+  { brand:'Ray', code:'RAY-084', name:'渗线液（棕）', nameEn:'Shade Brown',     hex:'#6d4c41', type:'水性漆', finish:'flat'  },
+  { brand:'Ray', code:'RAY-085', name:'渗线液（黑）', nameEn:'Shade Black',     hex:'#212121', type:'水性漆', finish:'flat'  },
 
 ];
 
