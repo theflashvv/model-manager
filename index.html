@@ -1296,6 +1296,7 @@ function addFromDb(code, brand) {
     document.getElementById('paintColor').value = p.hex;
     document.getElementById('paintColorHex').value = p.hex;
     document.getElementById('colorPreviewBox').style.background = p.hex;
+    checkDuplicate();
   }, 50);
 }
 
@@ -1398,6 +1399,7 @@ function confirmParse() {
     // 品牌如果是自定义，select 可能没有该选项，回退到「其他」
     const brandEl = document.getElementById('paintBrand');
     if (brandEl.value !== parsedResult.brand) brandEl.value = '其他';
+    checkDuplicate();
   }, 50);
 }
 
