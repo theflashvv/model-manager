@@ -27,6 +27,84 @@
     --success: #4caf50;
     --danger: #e94560;
   }
+
+  /* ── 亮色主题变量 ─────────────────────────────────────────────────────────── */
+  [data-theme="light"] {
+    --bg: #f4f4f6;
+    --surface: #ffffff;
+    --card: #f9f9fb;
+    --accent: #e94560;
+    --accent2: #6941c6;
+    --text: #1a1a2e;
+    --text-dim: #666e7a;
+    --border: #e0e2e8;
+    --warning: #d97706;
+    --success: #16a34a;
+    --danger: #e94560;
+  }
+  /* 跟随系统亮色模式（未手动设置时） */
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #f4f4f6;
+      --surface: #ffffff;
+      --card: #f9f9fb;
+      --accent: #e94560;
+      --accent2: #6941c6;
+      --text: #1a1a2e;
+      --text-dim: #666e7a;
+      --border: #e0e2e8;
+      --warning: #d97706;
+      --success: #16a34a;
+      --danger: #e94560;
+    }
+  }
+
+  /* ── 亮色模式组件微调 ──────────────────────────────────────────────────────── */
+  [data-theme="light"] .btn-secondary { background: #ececf0; color: var(--text); }
+  [data-theme="light"] .btn-secondary:hover { background: #dddde6; }
+  [data-theme="light"] .tool-card:hover { border-color: var(--accent); }
+  [data-theme="light"] .paint-card:hover { border-color: var(--accent); }
+  [data-theme="light"] .tip-banner { background: linear-gradient(135deg, rgba(105,65,198,.08), rgba(233,69,96,.06)); border-color: var(--accent2); }
+  [data-theme="light"] .alert-banner { background: rgba(233,69,96,.08); }
+  [data-theme="light"] .modal { box-shadow: 0 8px 40px rgba(0,0,0,.15); }
+  [data-theme="light"] .tag-input-wrap { background: var(--bg); }
+  [data-theme="light"] .form-control { background: var(--bg); }
+  [data-theme="light"] .search-input { background: var(--surface); }
+  [data-theme="light"] .filter-select { background: var(--surface); }
+  [data-theme="light"] .stage-checkbox { background: var(--surface); }
+  [data-theme="light"] .stage-checkbox.checked { background: rgba(233,69,96,.1); }
+  [data-theme="light"] .db-result-item { background: var(--bg); }
+  [data-theme="light"] .shop-item { background: var(--surface); }
+  [data-theme="light"] ::-webkit-scrollbar-track { background: var(--bg); }
+  [data-theme="light"] ::-webkit-scrollbar-thumb { background: #c8cad0; }
+  [data-theme="light"] .stock-empty { background: #aaa; }
+  [data-theme="light"] .type-nitro { background: rgba(233,69,96,.1); }
+  [data-theme="light"] .type-water { background: rgba(22,163,74,.1); color: #16a34a; }
+  [data-theme="light"] .type-enamel { background: rgba(217,119,6,.1); color: #d97706; }
+  [data-theme="light"] .type-primer { background: rgba(105,65,198,.1); color: #6941c6; }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .btn-secondary { background: #ececf0; color: var(--text); }
+    :root:not([data-theme="dark"]) .btn-secondary:hover { background: #dddde6; }
+    :root:not([data-theme="dark"]) .tool-card:hover { border-color: var(--accent); }
+    :root:not([data-theme="dark"]) .paint-card:hover { border-color: var(--accent); }
+    :root:not([data-theme="dark"]) .tip-banner { background: linear-gradient(135deg, rgba(105,65,198,.08), rgba(233,69,96,.06)); border-color: var(--accent2); }
+    :root:not([data-theme="dark"]) .alert-banner { background: rgba(233,69,96,.08); }
+    :root:not([data-theme="dark"]) .modal { box-shadow: 0 8px 40px rgba(0,0,0,.15); }
+    :root:not([data-theme="dark"]) .tag-input-wrap { background: var(--bg); }
+    :root:not([data-theme="dark"]) .form-control { background: var(--bg); }
+    :root:not([data-theme="dark"]) .search-input { background: var(--surface); }
+    :root:not([data-theme="dark"]) .filter-select { background: var(--surface); }
+    :root:not([data-theme="dark"]) .stage-checkbox { background: var(--surface); }
+    :root:not([data-theme="dark"]) .db-result-item { background: var(--bg); }
+    :root:not([data-theme="dark"]) .shop-item { background: var(--surface); }
+    :root:not([data-theme="dark"]) ::-webkit-scrollbar-track { background: var(--bg); }
+    :root:not([data-theme="dark"]) ::-webkit-scrollbar-thumb { background: #c8cad0; }
+    :root:not([data-theme="dark"]) .stock-empty { background: #aaa; }
+    :root:not([data-theme="dark"]) .type-water { background: rgba(22,163,74,.1); color: #16a34a; }
+    :root:not([data-theme="dark"]) .type-enamel { background: rgba(217,119,6,.1); color: #d97706; }
+    :root:not([data-theme="dark"]) .type-primer { background: rgba(105,65,198,.1); color: #6941c6; }
+  }
   body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; min-height: 100vh; }
 
   /* NAV */
@@ -185,6 +263,8 @@
   #installBanner { padding-bottom: max(14px, env(safe-area-inset-bottom)); }
 
   /* PAINT DB */
+  .dup-warning { background: rgba(245,166,35,.12); border: 1px solid rgba(245,166,35,.5); border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--warning); margin-bottom: 4px; }
+  [data-theme="light"] .dup-warning { background: rgba(217,119,6,.08); border-color: rgba(217,119,6,.4); }
   .db-result-list { display: flex; flex-direction: column; gap: 8px; max-height: 55vh; overflow-y: auto; margin-top: 12px; }
   .db-result-item { display: flex; align-items: center; gap: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; cursor: pointer; transition: border-color .15s; }
   .db-result-item:hover { border-color: var(--accent); }
@@ -293,6 +373,7 @@
   <div class="spacer"></div>
   <div class="stats-bar" id="statsBar"></div>
   <div style="display:flex;gap:6px;padding:0 4px">
+    <button class="btn btn-sm btn-secondary" id="themeBtn" onclick="toggleTheme()" title="切换主题" style="font-size:16px;padding:5px 10px"></button>
     <button class="btn btn-sm btn-secondary" onclick="exportData()" title="导出备份">⬇ <span class="nav-btn-text">导出</span></button>
     <label class="btn btn-sm btn-secondary" style="cursor:pointer" title="导入备份">⬆ <span class="nav-btn-text">导入</span><input type="file" accept=".json" onchange="importData(event)" style="display:none"></label>
   </div>
@@ -573,13 +654,14 @@
       <div class="form-row">
         <div class="form-group">
           <label>色号</label>
-          <input class="form-control" id="paintCode" placeholder="例：XF-1、C-1">
+          <input class="form-control" id="paintCode" placeholder="例：XF-1、C-1" oninput="checkDuplicate()">
         </div>
         <div class="form-group">
           <label>颜色名称 *</label>
-          <input class="form-control" id="paintName" placeholder="例：哑光黑">
+          <input class="form-control" id="paintName" placeholder="例：哑光黑" oninput="checkDuplicate()">
         </div>
       </div>
+      <div id="dupWarning" class="dup-warning" style="display:none"></div>
       <div class="form-group">
         <label>颜色</label>
         <div class="color-preview-row">
@@ -1045,6 +1127,7 @@ function openPaintModal(id) {
     document.getElementById('paintNotes').value = '';
     setTagsToWrap('paintModelsWrap', []);
   }
+  document.getElementById('dupWarning').style.display = 'none';
   document.getElementById('paintModal').classList.add('open');
 }
 
@@ -1469,7 +1552,55 @@ function copyShopList() {
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); }));
 
+// ─── THEME ───────────────────────────────────────────────────────────────────
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  updateThemeBtn();
+}
+
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = cur === 'dark' || (!cur && systemDark);
+  const next = isDark ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  updateThemeBtn();
+}
+
+function updateThemeBtn() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = cur === 'dark' || (!cur && systemDark);
+  const btn = document.getElementById('themeBtn');
+  if (btn) btn.textContent = isDark ? '☀️' : '🌙';
+}
+
+// ─── DUPLICATE PAINT CHECK ───────────────────────────────────────────────────
+function checkDuplicate() {
+  const code = document.getElementById('paintCode').value.trim();
+  const name = document.getElementById('paintName').value.trim();
+  const id   = document.getElementById('paintId').value;
+  const warn = document.getElementById('dupWarning');
+
+  const dup = paints.find(p =>
+    p.id !== id && (
+      (code.length >= 2 && p.code && p.code.toLowerCase() === code.toLowerCase()) ||
+      (name.length >= 2 && p.name === name)
+    )
+  );
+
+  if (dup) {
+    warn.innerHTML = `⚠ 库存中已有「${dup.code ? dup.code + ' ' : ''}${dup.name}」（${dup.brand}） · 库存状态：${stockLabel[dup.stock]}`;
+    warn.style.display = 'block';
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
+initTheme();
 renderTools(); renderTip(); updateStats(); updateShopBadge();
 
 // 自动读取 sw.js 版本号并显示
