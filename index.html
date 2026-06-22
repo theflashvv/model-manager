@@ -614,15 +614,15 @@
 
 <!-- BOTTOM NAV TAB BAR（必须在 main 外才能 fixed 定位正常）-->
 <div class="bottom-nav">
-  <button class="bottom-nav-btn active" id="tab-tools" onclick="switchPageTab('tools')">
+  <button class="bottom-nav-btn active" id="tab-tools" onclick="switchPageTab('tools', PAGES.indexOf(getCurrentPage())>0?'right':'')">
     <span class="tab-icon"><span class="sprite sprite-locke2" style="width:26px;height:36px;animation-duration:3s"></span></span>
     <span>工具</span>
   </button>
-  <button class="bottom-nav-btn" id="tab-paints" onclick="switchPageTab('paints')">
+  <button class="bottom-nav-btn" id="tab-paints" onclick="switchPageTab('paints', PAGES.indexOf(getCurrentPage())<1?'left':'right')">
     <span class="tab-icon"><span class="sprite sprite-celes2" style="width:26px;height:36px;animation-duration:3.4s"></span></span>
     <span>油漆</span>
   </button>
-  <button class="bottom-nav-btn" id="tab-shopping" onclick="switchPageTab('shopping')">
+  <button class="bottom-nav-btn" id="tab-shopping" onclick="switchPageTab('shopping', PAGES.indexOf(getCurrentPage())<2?'left':'')">
     <span class="tab-icon" style="font-size:26px">🛒</span>
     <span id="tabShopBadge" class="tab-badge" style="display:none"></span>
     <span>购物</span>
@@ -925,25 +925,25 @@ function switchPageTab(name, dir) {
   const nextPage = document.getElementById('page-' + name);
   if (!nextPage || curPage === nextPage) return;
 
-  // 移除旧动画 class
-  document.querySelectorAll('.page').forEach(p => {
-    p.classList.remove('active', 'slide-left', 'slide-right');
-    p.style.display = 'none';
-  });
-
-  // 加入动画 class
-  const animClass = dir === 'left' ? 'slide-left' : dir === 'right' ? 'slide-right' : '';
-  nextPage.style.display = 'block';
-  if (animClass) {
-    nextPage.classList.add(animClass);
-    setTimeout(() => nextPage.classList.remove(animClass), 300);
-  }
-  nextPage.classList.add('active');
-
+  // 先渲染数据
   if (name === 'paints')   { renderPaints(); renderLowStockAlert(); }
   if (name === 'tools')    { renderTools(); renderTip(); }
   if (name === 'shopping') { renderShopping(); }
   updateStats();
+
+  // 切换 active（让 CSS display 生效）
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  nextPage.classList.add('active');
+
+  // 下一帧再加动画 class，确保 display:block 已生效
+  if (dir === 'left' || dir === 'right') {
+    const animClass = dir === 'left' ? 'slide-left' : 'slide-right';
+    requestAnimationFrame(() => {
+      nextPage.classList.add(animClass);
+      setTimeout(() => nextPage.classList.remove(animClass), 320);
+    });
+  }
+
   document.querySelectorAll('.bottom-nav-btn').forEach(b => b.classList.remove('active'));
   const tab = document.getElementById('tab-' + name);
   if (tab) tab.classList.add('active');
