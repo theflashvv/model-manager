@@ -532,29 +532,29 @@
     </div>
   </div>
 
-  <!-- BOTTOM NAV TAB BAR -->
-  <nav class="bottom-nav">
-    <button class="bottom-nav-btn active" id="tab-tools" onclick="switchPageTab('tools')">
-      <span class="tab-icon"><span class="sprite sprite-locke2" style="width:26px;height:36px;animation-duration:3s"></span></span>
-      <span>工具</span>
-    </button>
-    <button class="bottom-nav-btn" id="tab-paints" onclick="switchPageTab('paints')">
-      <span class="tab-icon"><span class="sprite sprite-celes2" style="width:26px;height:36px;animation-duration:3.4s"></span></span>
-      <span>油漆</span>
-    </button>
-    <button class="bottom-nav-btn" id="tab-shopping" onclick="switchPageTab('shopping')">
-      <span class="tab-icon" style="font-size:26px">🛒</span>
-      <span id="tabShopBadge" class="tab-badge" style="display:none"></span>
-      <span>购物</span>
-    </button>
-  </nav>
-
   <!-- FOOTER -->
   <div style="text-align:center;padding:40px 20px 20px;color:var(--text-dim);font-size:12px">
     <div style="font-size:13px;color:var(--text);font-weight:600;letter-spacing:1px">MODELMASTER</div>
     <div style="margin-top:4px"><span id="footerVersion"></span> &nbsp;·&nbsp; 模型管家 &nbsp;·&nbsp; Made with ❤️ for Gunpla builders</div>
   </div>
 </main>
+
+<!-- BOTTOM NAV TAB BAR（必须在 main 外才能 fixed 定位正常）-->
+<nav class="bottom-nav">
+  <button class="bottom-nav-btn active" id="tab-tools" onclick="switchPageTab('tools')">
+    <span class="tab-icon"><span class="sprite sprite-locke2" style="width:26px;height:36px;animation-duration:3s"></span></span>
+    <span>工具</span>
+  </button>
+  <button class="bottom-nav-btn" id="tab-paints" onclick="switchPageTab('paints')">
+    <span class="tab-icon"><span class="sprite sprite-celes2" style="width:26px;height:36px;animation-duration:3.4s"></span></span>
+    <span>油漆</span>
+  </button>
+  <button class="bottom-nav-btn" id="tab-shopping" onclick="switchPageTab('shopping')">
+    <span class="tab-icon" style="font-size:26px">🛒</span>
+    <span id="tabShopBadge" class="tab-badge" style="display:none"></span>
+    <span>购物</span>
+  </button>
+</nav>
 
 <!-- PWA INSTALL BANNER (Android / Chrome) -->
 <div id="installBanner">
