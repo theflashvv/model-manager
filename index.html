@@ -176,7 +176,11 @@
   /* MAIN */
   main { padding: 24px; max-width: 1400px; margin: 0 auto; }
   .page { display: none; }
-  .page.active { display: block; }
+  .page.active { display: block; animation: pageSlideIn .28s cubic-bezier(.25,.46,.45,.94) both; }
+  .page.slide-left  { animation: pageSlideInLeft  .28s cubic-bezier(.25,.46,.45,.94) both; }
+  .page.slide-right { animation: pageSlideInRight .28s cubic-bezier(.25,.46,.45,.94) both; }
+  @keyframes pageSlideInLeft  { from { opacity:.4; transform:translateX(48px);  } to { opacity:1; transform:translateX(0); } }
+  @keyframes pageSlideInRight { from { opacity:.4; transform:translateX(-48px); } to { opacity:1; transform:translateX(0); } }
 
   /* PAGE HEADER */
   .page-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
@@ -916,9 +920,26 @@ function switchPage(name) {
   updateStats();
 }
 
-function switchPageTab(name) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page-' + name).classList.add('active');
+function switchPageTab(name, dir) {
+  const curPage = document.querySelector('.page.active');
+  const nextPage = document.getElementById('page-' + name);
+  if (!nextPage || curPage === nextPage) return;
+
+  // 移除旧动画 class
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active', 'slide-left', 'slide-right');
+    p.style.display = 'none';
+  });
+
+  // 加入动画 class
+  const animClass = dir === 'left' ? 'slide-left' : dir === 'right' ? 'slide-right' : '';
+  nextPage.style.display = 'block';
+  if (animClass) {
+    nextPage.classList.add(animClass);
+    setTimeout(() => nextPage.classList.remove(animClass), 300);
+  }
+  nextPage.classList.add('active');
+
   if (name === 'paints')   { renderPaints(); renderLowStockAlert(); }
   if (name === 'tools')    { renderTools(); renderTip(); }
   if (name === 'shopping') { renderShopping(); }
@@ -1837,10 +1858,10 @@ document.addEventListener('touchend', e => {
   if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
   const cur = getCurrentPage();
   const idx = PAGES.indexOf(cur);
+  const dir = dx < 0 ? 'left' : 'right';
   const next = dx < 0 ? PAGES[idx + 1] : PAGES[idx - 1];
   if (!next) return;
-  const btn = document.getElementById('tab-' + next);
-  if (btn) btn.click();
+  switchPageTab(next, dir);
 }, { passive: true });
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
