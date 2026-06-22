@@ -343,13 +343,26 @@
     .shop-actions { flex-wrap: nowrap; gap: 8px; }
     .shop-actions .btn { flex: 1; justify-content: center; font-size: 12px; padding: 13px 6px; min-height: 48px; }
 
-    /* TOOL CARDS：减小内边距 */
-    .tool-card { padding: 14px; }
-    .tool-card .meta { flex-direction: column; align-items: flex-start; gap: 8px; }
-    .card-actions { width: 100%; justify-content: flex-end; }
+    /* TOOL GRID：手机端2列 */
+    .tools-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .tool-card { padding: 11px; }
+    .tool-card h3 { font-size: 13px; }
+    .tool-card .notes { font-size: 12px; margin: 6px 0; }
+    .tool-card .meta { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .card-actions { width: 100%; justify-content: flex-end; gap: 4px; }
+    .card-actions .btn-sm { padding: 4px 8px; font-size: 11px; }
+    .tool-icon { width: 32px; height: 32px; font-size: 16px; }
+    .forgotten-badge { font-size: 9px; padding: 1px 5px; top: 8px; right: 8px; }
 
-    /* PAINT GRID：2列 */
-    .paint-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+    /* PAINT GRID：手机端3列 */
+    .paint-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .paint-swatch { height: 52px; }
+    .paint-info { padding: 7px; }
+    .paint-code { font-size: 11px; }
+    .paint-name { font-size: 10px; }
+    .paint-brand { font-size: 9px; }
+    .paint-card .card-actions { padding: 4px 7px 7px; gap: 4px; }
+    .paint-card .card-actions .btn-sm { padding: 4px 6px; font-size: 11px; flex: 1; justify-content: center; }
 
     /* FORM */
     .form-row { grid-template-columns: 1fr; }
