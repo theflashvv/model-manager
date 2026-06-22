@@ -332,12 +332,16 @@
     .page-header { flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
     .page-header h2 { font-size: 18px; width: 100%; }
     .page-header .spacer { display: none; }
-    .page-header .btn { flex: 1; justify-content: center; font-size: 13px; padding: 9px 10px; }
+    .page-header .btn { flex: 1; justify-content: center; font-size: 13px; padding: 13px 10px; min-height: 48px; }
 
     /* FILTER BAR：搜索框独占一行，筛选器平分第二行 */
     .filter-bar { gap: 8px; }
     .filter-bar .search-input { width: 100%; min-width: unset; flex: unset; }
-    .filter-bar .filter-select { flex: 1; min-width: 0; font-size: 12px; padding: 8px 6px; }
+    .filter-bar .filter-select { flex: 1; min-width: 0; font-size: 13px; padding: 10px 6px; }
+
+    /* 购物页操作按钮等宽一行 */
+    .shop-actions { flex-wrap: nowrap; gap: 8px; }
+    .shop-actions .btn { flex: 1; justify-content: center; font-size: 12px; padding: 13px 6px; min-height: 48px; }
 
     /* TOOL CARDS：减小内边距 */
     .tool-card { padding: 14px; }

@@ -1,5 +1,5 @@
-const CACHE_NAME = 'model-manager-v19';
-const APP_VERSION = '1.0';
+const CACHE_NAME = 'model-manager-v20';
+const APP_VERSION = '1.01';
 const ASSETS = [
   './index.html',
   './paintdb.js',
