@@ -1817,6 +1817,32 @@ function checkLock() {
   setTimeout(() => document.getElementById('lockInput').focus(), 100);
 }
 
+// ─── SWIPE NAVIGATION ────────────────────────────────────────────────────────
+const PAGES = ['tools', 'paints', 'shopping'];
+let _swipeStartX = 0;
+let _swipeStartY = 0;
+
+function getCurrentPage() {
+  return PAGES.find(p => document.getElementById('page-' + p).classList.contains('active')) || 'tools';
+}
+
+document.addEventListener('touchstart', e => {
+  _swipeStartX = e.touches[0].clientX;
+  _swipeStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - _swipeStartX;
+  const dy = e.changedTouches[0].clientY - _swipeStartY;
+  if (Math.abs(dx) < 60 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+  const cur = getCurrentPage();
+  const idx = PAGES.indexOf(cur);
+  const next = dx < 0 ? PAGES[idx + 1] : PAGES[idx - 1];
+  if (!next) return;
+  const btn = document.getElementById('tab-' + next);
+  if (btn) btn.click();
+}, { passive: true });
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 initTheme();
 renderTools(); renderTip(); updateStats(); updateShopBadge();
