@@ -1,4 +1,4 @@
-const CACHE_NAME = 'model-manager-v30';
+const CACHE_NAME = 'model-manager-v31';
 const APP_VERSION = '1.01';
 const ASSETS = [
   './index.html',

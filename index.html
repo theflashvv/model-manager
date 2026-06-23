@@ -1614,7 +1614,11 @@ function refreshShopAuto() {
   const list = document.getElementById('shopAutoList');
 
   if (!lowPaints.length && !lowTools.length) {
-    list.innerHTML = '<div class="shop-empty">暂无低库存物料，全部充足！</div>';
+    list.innerHTML = `<div class="shop-empty" style="padding:24px 20px;display:flex;flex-direction:column;align-items:center;gap:10px">
+      <span class="sprite sprite-terra2" style="width:56px;height:72px;display:block"></span>
+      <span style="color:var(--success);font-weight:600;font-size:14px">库存充足！</span>
+      <span style="color:var(--text-dim);font-size:13px">蒂娜说：所有耗材都还够用，不需要补货</span>
+    </div>`;
     return;
   }
 
@@ -1642,7 +1646,10 @@ function refreshShopAuto() {
 function renderShopManual() {
   const list = document.getElementById('shopManualList');
   if (!manualItems.length) {
-    list.innerHTML = '<div class="shop-empty" style="padding:16px">还没有手动添加的项目</div>';
+    list.innerHTML = `<div class="shop-empty" style="padding:12px 20px;display:flex;align-items:center;gap:12px">
+      <span class="sprite sprite-terra2" style="width:32px;height:42px;display:block;flex-shrink:0"></span>
+      <span style="color:var(--text-dim);font-size:13px">还没有手动添加的项目</span>
+    </div>`;
     return;
   }
   list.innerHTML = manualItems.map(item => shopItemHTML(
