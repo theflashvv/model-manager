@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -948,6 +948,7 @@ function switchPageTab(name, dir) {
   const tab = document.getElementById('tab-' + name);
   if (tab) tab.classList.add('active');
   closeMoreMenu();
+  resetZoom();
 }
 
 function toggleMoreMenu() {
@@ -1759,6 +1760,7 @@ function closeModal(id) {
     const saveBtn = document.getElementById('paintSaveBtn');
     if (saveBtn) { saveBtn.disabled = false; saveBtn.style.opacity = ''; saveBtn.style.cursor = ''; }
   }
+  resetZoom();
 }
 document.querySelectorAll('.modal-overlay').forEach(el => el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); }));
 
@@ -1843,6 +1845,17 @@ function checkLock() {
   const lock = document.getElementById('lockScreen');
   lock.style.display = 'flex';
   setTimeout(() => document.getElementById('lockInput').focus(), 100);
+}
+
+// ─── RESET ZOOM ──────────────────────────────────────────────────────────────
+function resetZoom() {
+  const vp = document.querySelector('meta[name="viewport"]');
+  if (!vp) return;
+  // 先临时禁止缩放强制归位，再恢复允许
+  vp.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover';
+  requestAnimationFrame(() => {
+    vp.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.5, viewport-fit=cover';
+  });
 }
 
 // ─── SWIPE NAVIGATION ────────────────────────────────────────────────────────
