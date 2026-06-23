@@ -339,6 +339,8 @@
   .models-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
   .model-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; position: relative; transition: border-color .2s; }
   .model-card:hover { border-color: var(--accent2); }
+  .model-card-cover { width: 100%; height: 140px; border-radius: 8px; object-fit: cover; margin-bottom: 10px; background: var(--border); display: flex; align-items: center; justify-content: center; font-size: 36px; overflow: hidden; }
+  .model-card-cover img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
   .model-card-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 10px; }
   .model-card-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
   .model-card h3 { font-size: 14px; font-weight: 600; line-height: 1.3; }
@@ -837,6 +839,15 @@
       <div class="form-group">
         <label>购买日期</label>
         <input class="form-control" id="modelBuyDate" type="date">
+      </div>
+      <div class="form-group">
+        <label>封面图片</label>
+        <div id="modelCoverPreview" style="width:100%;height:120px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;cursor:pointer;position:relative" onclick="document.getElementById('modelCoverInput').click()">
+          <span id="modelCoverPlaceholder" style="color:var(--text-dim);font-size:13px">点击上传封面图</span>
+          <img id="modelCoverImg" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:8px">
+          <button id="modelCoverClear" onclick="clearModelCover(event)" style="display:none;position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);border:none;color:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px;line-height:1">×</button>
+        </div>
+        <input type="file" id="modelCoverInput" accept="image/*" style="display:none" onchange="loadModelCover(event)">
       </div>
       <div class="form-group">
         <label>备注</label>
@@ -1709,6 +1720,48 @@ const modelStatusLabel = { sealed:'未开封', building:'素组中', painting:'�
 const modelStatusClass  = { sealed:'status-sealed', building:'status-building', painting:'status-painting', done:'status-done', display:'status-display' };
 const modelSeriesIcon   = { '高达':'🤖', '机甲':'⚙️', '车辆':'🚗', '人物':'👤', '建筑':'🏯', '其他':'📦' };
 
+let _modelCoverB64 = null;
+
+function loadModelCover(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    _modelCoverB64 = ev.target.result;
+    document.getElementById('modelCoverImg').src = _modelCoverB64;
+    document.getElementById('modelCoverImg').style.display = 'block';
+    document.getElementById('modelCoverPlaceholder').style.display = 'none';
+    document.getElementById('modelCoverClear').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+function clearModelCover(e) {
+  e.stopPropagation();
+  _modelCoverB64 = null;
+  document.getElementById('modelCoverImg').style.display = 'none';
+  document.getElementById('modelCoverImg').src = '';
+  document.getElementById('modelCoverPlaceholder').style.display = '';
+  document.getElementById('modelCoverClear').style.display = 'none';
+}
+
+function setModelCoverUI(b64) {
+  if (b64) {
+    _modelCoverB64 = b64;
+    document.getElementById('modelCoverImg').src = b64;
+    document.getElementById('modelCoverImg').style.display = 'block';
+    document.getElementById('modelCoverPlaceholder').style.display = 'none';
+    document.getElementById('modelCoverClear').style.display = 'block';
+  } else {
+    _modelCoverB64 = null;
+    document.getElementById('modelCoverImg').style.display = 'none';
+    document.getElementById('modelCoverImg').src = '';
+    document.getElementById('modelCoverPlaceholder').style.display = '';
+    document.getElementById('modelCoverClear').style.display = 'none';
+  }
+}
+
 function renderModels() {
   const grid = document.getElementById('modelsGrid');
   if (!models.length) {
@@ -1725,11 +1778,14 @@ function renderModels() {
     const stale = m.status === 'sealed' && m.buyDate &&
       (now - new Date(m.buyDate).getTime()) > sixMonths;
     const buyText = m.buyDate ? `购于 ${m.buyDate}` : '';
+    const coverHTML = m.cover
+      ? `<div class="model-card-cover"><img src="${m.cover}" alt="cover"></div>`
+      : `<div class="model-card-cover" style="font-size:40px">${icon}</div>`;
     return `
       <div class="model-card">
         ${stale ? '<span class="model-stale-badge">积压超半年</span>' : ''}
+        ${coverHTML}
         <div class="model-card-header">
-          <div class="model-card-icon" style="background:var(--border)">${icon}</div>
           <div>
             <h3>${m.name}</h3>
             <div class="model-meta"><span>${m.scale}</span><span>${m.brand}</span></div>
@@ -1766,6 +1822,7 @@ function openModelModal(id) {
     document.getElementById('modelStatus').value  = m.status;
     document.getElementById('modelBuyDate').value = m.buyDate || '';
     document.getElementById('modelNotes').value   = m.notes || '';
+    setModelCoverUI(m.cover || null);
   } else {
     document.getElementById('modelName').value    = '';
     document.getElementById('modelSeries').value  = '高达';
@@ -1774,6 +1831,7 @@ function openModelModal(id) {
     document.getElementById('modelStatus').value  = 'sealed';
     document.getElementById('modelBuyDate').value = new Date().toISOString().slice(0,10);
     document.getElementById('modelNotes').value   = '';
+    setModelCoverUI(null);
   }
   document.getElementById('modelModal').classList.add('open');
 }
@@ -1789,7 +1847,8 @@ function saveModel() {
     brand:   document.getElementById('modelBrand').value,
     status:  document.getElementById('modelStatus').value,
     buyDate: document.getElementById('modelBuyDate').value,
-    notes:   document.getElementById('modelNotes').value.trim()
+    notes:   document.getElementById('modelNotes').value.trim(),
+    cover:   _modelCoverB64
   };
   if (id) { Object.assign(models.find(m => m.id === id), data); }
   else { models.push({ id: genId(), ...data }); }
