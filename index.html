@@ -842,11 +842,11 @@
       </div>
       <div class="form-group">
         <label>封面图片</label>
-        <div id="modelCoverPreview" style="width:100%;height:120px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;cursor:pointer;position:relative" onclick="document.getElementById('modelCoverInput').click()">
+        <label for="modelCoverInput" id="modelCoverPreview" style="width:100%;height:120px;border-radius:8px;background:var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;margin-bottom:8px;cursor:pointer;position:relative">
           <span id="modelCoverPlaceholder" style="color:var(--text-dim);font-size:13px">点击上传封面图</span>
           <img id="modelCoverImg" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:8px">
           <button id="modelCoverClear" onclick="clearModelCover(event)" style="display:none;position:absolute;top:6px;right:6px;background:rgba(0,0,0,.5);border:none;color:#fff;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:14px;line-height:1">×</button>
-        </div>
+        </label>
         <input type="file" id="modelCoverInput" accept="image/*" style="display:none" onchange="loadModelCover(event)">
       </div>
       <div class="form-group">
