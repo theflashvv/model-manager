@@ -608,6 +608,22 @@
       <div class="spacer"></div>
       <button class="btn btn-primary" onclick="openModelModal()">＋ 新增模型</button>
     </div>
+    <div class="filter-bar">
+      <input class="search-input" id="modelSearch" placeholder="搜索模型名称…" oninput="renderModels()">
+      <select class="filter-select" id="modelScaleFilter" onchange="renderModels()">
+        <option value="">全部比例</option>
+        <option>HG 1/144</option><option>MG 1/100</option><option>RG 1/144</option>
+        <option>PG 1/60</option><option>SD</option><option>其他</option>
+      </select>
+      <select class="filter-select" id="modelStatusFilter" onchange="renderModels()">
+        <option value="">全部状态</option>
+        <option value="sealed">未开封</option>
+        <option value="building">素组中</option>
+        <option value="painting">涂装中</option>
+        <option value="done">已完成</option>
+        <option value="display">展示中</option>
+      </select>
+    </div>
     <div class="models-grid" id="modelsGrid"></div>
   </div>
 
@@ -1764,6 +1780,17 @@ function setModelCoverUI(b64) {
 
 function renderModels() {
   const grid = document.getElementById('modelsGrid');
+  const search = (document.getElementById('modelSearch')?.value || '').toLowerCase().trim();
+  const scaleF  = document.getElementById('modelScaleFilter')?.value  || '';
+  const statusF = document.getElementById('modelStatusFilter')?.value || '';
+
+  let list = models.filter(m => {
+    if (search && !m.name.toLowerCase().includes(search)) return false;
+    if (scaleF  && m.scale  !== scaleF)  return false;
+    if (statusF && m.status !== statusF) return false;
+    return true;
+  });
+
   if (!models.length) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="icon"><span class="sprite sprite-mog2" style="width:56px;height:72px;display:block;margin:0 auto 8px"></span></div>
@@ -1771,9 +1798,13 @@ function renderModels() {
     </div>`;
     return;
   }
+  if (!list.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="icon">🔍</div><p>没有符合条件的模型</p></div>`;
+    return;
+  }
   const now = Date.now();
   const sixMonths = 180 * 24 * 3600 * 1000;
-  grid.innerHTML = models.map(m => {
+  grid.innerHTML = list.map(m => {
     const icon = modelSeriesIcon[m.series] || '📦';
     const stale = m.status === 'sealed' && m.buyDate &&
       (now - new Date(m.buyDate).getTime()) > sixMonths;
